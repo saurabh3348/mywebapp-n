@@ -1,0 +1,38 @@
+# backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: gcr.io/mounika8036-426015/backend:latest
+          env:
+            - name: BACKEND_SERVICE_NAME
+              value: "backend-service"
+            - name: BACKEND_NAMESPACE
+              value: "backend"
+            - name: FRONTEND_SERVICE_NAME
+              value: "frontend-service"
+            - name: FRONTEND_NAMESPACE
+              value: "frontend"
+            - name: DB_NAME
+              value: "myappdb"
+            - name: DB_USER
+              value: "myuser"
+            - name: DB_PASSWORD
+              value: "admin123"
+            - name: DB_HOST
+              value: "34.23.231.65"
+          ports:
+            - containerPort: 8080
